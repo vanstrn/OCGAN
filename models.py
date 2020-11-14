@@ -154,7 +154,8 @@ class Discriminator(HybridBlock):
                 self.model.add(Conv2D(channels=ndf * nf_mult, kernel_size=kernel_size, strides=2,
                                       padding=padding, in_channels=ndf * nf_mult_prev,
                                       use_bias=use_bias))
-                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult , use_global_stats=istest))
+                # self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult ))
+                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult ))
                 self.model.add(LeakyReLU(alpha=0.2))
 
             nf_mult_prev = nf_mult
@@ -162,7 +163,8 @@ class Discriminator(HybridBlock):
             self.model.add(Conv2D(channels=ndf * nf_mult, kernel_size=kernel_size, strides=2,
                                   padding=padding, in_channels=ndf * nf_mult_prev,
                                   use_bias=use_bias))
-            self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult, use_global_stats=istest))
+            # self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult))
+            self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult))
             self.model.add(LeakyReLU(alpha=0.2))
             self.model.add(Conv2D(channels=1, kernel_size=kernel_size, strides=2,
                                   padding=padding, in_channels=ndf * nf_mult))
@@ -171,7 +173,7 @@ class Discriminator(HybridBlock):
             elif use_sigmoid:
                 self.model.add(Activation(activation='sigmoid'))
 
-            
+
 
     def hybrid_forward(self, F, x):
         out = self.model(x)
@@ -216,7 +218,7 @@ class Encoder(HybridBlock):
                 self.model.add(Conv2D(channels=ndf * nf_mult, kernel_size=kernel_size, strides=2,
                                       padding=padding, in_channels=ndf * nf_mult_prev,
                                       use_bias=use_bias))
-                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult, use_global_stats=istest))
+                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult))
                 self.model.add(LeakyReLU(alpha=0.2))
 
             nf_mult_prev = nf_mult
@@ -224,14 +226,14 @@ class Encoder(HybridBlock):
             self.model.add(Conv2D(channels=latent, kernel_size=kernel_size, strides=2,
                                   padding=padding, in_channels=ndf * nf_mult_prev,
                                   use_bias=use_bias))
-            #self.model.add(BatchNorm(momentum=0.1, in_channels =latent, use_global_stats=istest))
+            #self.model.add(BatchNorm(momentum=0.1, in_channels =latent))
             if usetanh:
                 self.model.add(Activation(activation='tanh'))
             else:
                 self.model.add(LeakyReLU(alpha=0.2))
 
 
-                     
+
     def hybrid_forward(self, F, x):
         out = self.model(x)
         # print(out)
@@ -243,19 +245,19 @@ class Decoder(HybridBlock):
             super(Decoder, self).__init__()
             self.model = HybridSequential()
             kernel_size = 5
-            padding = 0 
+            padding = 0
             nf_mult = 2 ** n_layers
             self.model.add(Conv2DTranspose(channels=ndf * nf_mult/2, kernel_size=kernel_size, strides=2,
                                            padding=padding, in_channels=latent,
                                            use_bias=use_bias))
-            self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult / 2, use_global_stats=istest))
+            self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult / 2))
             self.model.add(Activation(activation='relu'))
             for n in range(1, n_layers):
                 nf_mult = nf_mult / 2
                 self.model.add(Conv2DTranspose(channels=ndf * nf_mult / 2, kernel_size=kernel_size, strides=2,
                                                padding=padding, in_channels=ndf * nf_mult,
                                                use_bias=use_bias))
-                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult / 2, use_global_stats=istest))
+                self.model.add(BatchNorm(momentum=0.1, in_channels=ndf * nf_mult / 2))
                 #self.model.add(LeakyReLU(alpha=0.2))
                 if n==2:
                       self.model.add(Dropout(rate=0.5))

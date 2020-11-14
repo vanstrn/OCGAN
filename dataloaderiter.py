@@ -22,21 +22,24 @@ def loadPaths(opt):
         for novel in novellist:
             filelisttext.write(str(novel)+'\n')
         filelisttext.close()
-        
+
     # read names of training classes
-    text_file = open(dataset + "_trainlist.txt", "r")
-    folders = text_file.readlines()
-    text_file.close()
-    folders = [i.split('\n', 1)[0] for i in folders]
+    # text_file = open(dataset + "_trainlist.txt", "r")
+    # folders = text_file.readlines()
+    # text_file.close()
+    # folders = [i.split('\n', 1)[0] for i in folders]
     inclasspaths = []
     testclasspaths = []
     inclasslabels = []
     testclasslabels = []
     # if classes is set to a a value use it instead
     inclasses = list(folders)
-    if classes != "":
-        inclasses = [classes]
-    print(inclasses)
+    # if classes != "":
+    #     inclasses = [classes]
+    inclasses.remove(classes)
+    # outclass = [classes]
+    print("Classes for training:",inclasses)
+
     if opt.protocol == 1:
         # first 80% of each image is treated as training. remainder is treated as testing
         for lbl, nclass in enumerate(inclasses):
@@ -68,7 +71,7 @@ def loadPaths(opt):
         for fn, lbl in zip(inclasspaths, inclasslabels):
             text_file.write("%s %s\n" % (fn, str(lbl)))
         text_file.close()
-        
+
 
     else:
         # Use train / test split
@@ -107,4 +110,3 @@ def loadPaths(opt):
             text_file.write("%s %s\n" % (fn, str(lbl)))
         text_file.close()
     return [inclasspaths, inclasslabels]
-

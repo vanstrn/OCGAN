@@ -64,7 +64,9 @@ def loadPaths(dataset, datapath, expname, minquery = 16, classes=""):
     for fn, lbl in zip(inclasspaths, inclasslabels):
         text_file.write("%s %s\n" % (fn, str(lbl)))
     text_file.close()
+
     return [inclasspaths, inclasslabels]
+
     '''
 
 
@@ -107,7 +109,7 @@ def loadPaths(dataset, datapath, expname, minquery = 16, classes=""):
          for nfile in range(nofentriesperclass):
             validationclasspaths.append(datapath + dataset + '/' + nclass + '/' + dirs[nfile])
             validationclasslabels.append(-1)
-    text_file = open(dataset + "_" + expname + "_validationlist.txt", "w")        
+    text_file = open(dataset + "_" + expname + "_validationlist.txt", "w")
     for fn, lbl in zip(validationclasspaths, validationclasslabels):
         text_file.write("%s %s\n" % (fn, str(lbl)))
     text_file.close()
@@ -115,6 +117,5 @@ def loadPaths(dataset, datapath, expname, minquery = 16, classes=""):
     text_file = open(dataset + "_" + expname + "_trainlist.txt", "w")
     for fn, lbl in zip(inclasspaths, inclasslabels):
         text_file.write("%s %s\n" % (fn, str(lbl)))
-    text_file.close()    
+    text_file.close()
     return [inclasspaths, inclasslabels]'''
-

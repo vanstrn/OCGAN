@@ -42,7 +42,13 @@ def main(opt):
     if opt.seed != -1:
         random.seed(opt.seed)
     ctx = mx.gpu() if opt.use_gpu else mx.cpu()
+    # ctx = mx.cpu()
+
+    #Modifying the loading to
+    print(opt)
     inclasspaths , inclasses = dload.loadPaths(opt)
+    print(inclasspaths[0::2000])
+    # print(inclasses)
     train_data, val_data = load_image.load_image(inclasspaths, opt)
     print('Data loading done.')
     networks = models.set_network(opt, ctx, False)
@@ -61,4 +67,3 @@ def main(opt):
 if __name__ == "__main__":
     opt = options.train_options()
     inclasses = main(opt)
-
