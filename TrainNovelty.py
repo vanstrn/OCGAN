@@ -89,13 +89,13 @@ def mainEvaluation(opt):
     netDe = networks[1]
     netD = networks[2]
     netD2 = networks[3]
-    load_epoch = opt.epochs - 1
-    netEn.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_En.params', ctx=ctx)
-    netDe.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_De.params', ctx=ctx)
-    if opt.ntype>1:
-    	netD.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D.params', ctx=ctx)
-    if opt.ntype>2:
-	netD2.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D2.params', ctx=ctx)
+    # load_epoch = opt.epochs - 1
+    # netEn.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_En.params', ctx=ctx)
+    # netDe.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_De.params', ctx=ctx)
+    # if opt.ntype>1:
+    # 	netD.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D.params', ctx=ctx)
+    # if opt.ntype>2:
+	# netD2.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D2.params', ctx=ctx)
 
     print('Model loading done')
     lbllist = [];
@@ -159,7 +159,7 @@ def mainEvaluation(opt):
     	    fpr, tpr, _ = roc_curve(lbllist, scorelist4, 1)
 	    roc_auc4 = auc(fpr, tpr)
 
-    return([roc_auc1, roc_auc2, roc_auc3, roc_auc4])
+    return[roc_auc1, roc_auc2, roc_auc3, roc_auc4]
 
 
 
@@ -169,3 +169,6 @@ if __name__ == "__main__":
     # opt = options.test_options()
     roc_auc =mainEvaluation(opt)
     print(roc_auc)
+    with open(opt.expname+".txt", 'w') as f:
+        for s in roc_auc:
+            f.write(str(s) + '\n')
