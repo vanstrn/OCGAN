@@ -26,6 +26,7 @@ import models
 import options
 import andgan
 
+from sklearn.metrics import roc_curve, auc
 
 def plotloss(loss_vec, fname):
     plt.gcf().clear()
@@ -88,12 +89,13 @@ def mainEvaluation(opt):
     netDe = networks[1]
     netD = networks[2]
     netD2 = networks[3]
-    # netEn.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_En.params', ctx=ctx)
-    # netDe.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_De.params', ctx=ctx)
-    # if opt.ntype>1:
-    # 	netD.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D.params', ctx=ctx)
-    # if opt.ntype>2:
-	# netD2.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D2.params', ctx=ctx)
+    load_epoch = opt.epochs - 1
+    netEn.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_En.params', ctx=ctx)
+    netDe.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_De.params', ctx=ctx)
+    if opt.ntype>1:
+    	netD.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D.params', ctx=ctx)
+    if opt.ntype>2:
+	netD2.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D2.params', ctx=ctx)
 
     print('Model loading done')
     lbllist = [];
@@ -134,7 +136,7 @@ def mainEvaluation(opt):
         out = netDe(netEn(real_in))
 
         # Save some sample results
-	fake_img1 = nd.concat(real_in[0],real_out[0], out[0], outnn[0],dim=1)
+        fake_img1 = nd.concat(real_in[0],real_out[0], out[0], outnn[0],dim=1)
         fake_img2 = nd.concat(real_in[1],real_out[1], out[1],outnn[1], dim=1)
         fake_img3 = nd.concat(real_in[2],real_out[2], out[2], outnn[2], dim=1)
         fake_img4 = nd.concat(real_in[3],real_out[3],out[3],outnn[3], dim=1)
@@ -164,5 +166,6 @@ def mainEvaluation(opt):
 if __name__ == "__main__":
     opt = options.train_options()
     inclasses = main(opt)
+    # opt = options.test_options()
     roc_auc =mainEvaluation(opt)
     print(roc_auc)

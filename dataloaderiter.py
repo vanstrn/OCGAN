@@ -47,16 +47,16 @@ def loadPaths(opt):
             dirs = os.listdir(datapath + dataset + '/' + nclass)
             for nfile in range(int(len(dirs)*0.8)):
                 inclasspaths.append(datapath + dataset + '/' + nclass + '/' + dirs[nfile])
-                inclasslabels.append(lbl)
-            # for nfile in range(int(len(dirs)*0.8)+1, len(dirs)):
-            #     testclasspaths.append(datapath + dataset + '/' + nclass + '/' + dirs[nfile])
-            #     testclasslabels.append(lbl)
+                inclasslabels.append(0)
+            for nfile in range(int(len(dirs)*0.8)+1, len(dirs)):
+                testclasspaths.append(datapath + dataset + '/' + nclass + '/' + dirs[nfile])
+                testclasslabels.append(0)
         text_file = open(dataset + "_novellist.txt", "r")
         folders = text_file.readlines()
         text_file.close()
         folders = [i.split('\n', 1)[0] for i in folders]
         cluttersize = int(round(len(testclasslabels)/len(folders)))
-        cluttersize=128
+        # cluttersize=
         for i in range(len(folders) ):
             dirs = os.listdir(datapath + dataset + '/' + folders[i])
             for nfile in dirs[0: cluttersize]:
