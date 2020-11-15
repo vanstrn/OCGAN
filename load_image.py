@@ -37,8 +37,8 @@ def load_image(fnames, opt):
                                   batch_size=batch_size)
     iterval = mx.io.NDArrayIter(data=[nd.concat(*val_list_in, dim=0), nd.concat(*val_list_out, dim=0)],
                                 batch_size=int(batch_size/5.0))
-
-    return [itertrain, iterval]
+    datasize = int(nd.concat(*train_list_in, dim=0).shape[0])
+    return [itertrain, iterval,datasize]
 
 
 

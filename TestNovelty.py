@@ -1,3 +1,31 @@
+from __future__ import print_function
+import os
+import matplotlib as mpl
+import tarfile
+import matplotlib.image as mpimg
+from matplotlib import pyplot as plt
+import mxnet as mx
+from mxnet import gluon
+from mxnet import ndarray as nd
+from mxnet.gluon import nn, utils
+from mxnet.gluon.nn import Dense, Activation, Conv2D, Conv2DTranspose, \
+    BatchNorm, LeakyReLU, Flatten, HybridSequential, HybridBlock, Dropout
+from mxnet import autograd
+import numpy as np
+import random
+from random import shuffle
+import dataloaderiter as dload
+import load_image
+import visual
+import models
+from datetime import datetime
+import time
+import logging
+import argparse
+import options
+
+from sklearn.metrics import roc_curve, auc
+
 def facc(label, pred):
     pred = pred.ravel()
     label = label.ravel()
@@ -31,12 +59,12 @@ def main(opt):
     netDe = networks[1]
     netD = networks[2]
     netD2 = networks[3]
-    netEn.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_En.params', ctx=ctx)
-    netDe.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_De.params', ctx=ctx)
-    if opt.ntype>1:
-    	netD.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D.params', ctx=ctx)
-    if opt.ntype>2:
-	netD2.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D2.params', ctx=ctx)
+    # netEn.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_En.params', ctx=ctx)
+    # netDe.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_De.params', ctx=ctx)
+    # if opt.ntype>1:
+    # 	netD.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D.params', ctx=ctx)
+    # if opt.ntype>2:
+	# netD2.load_params('checkpoints/'+opt.expname+'_'+str(opt.epochs)+'_D2.params', ctx=ctx)
 
     print('Model loading done')
     lbllist = [];
@@ -46,7 +74,7 @@ def main(opt):
     scorelist4 = [];
     test_data.reset()
     count = 0
-    
+
     for batch in (test_data):
 	count = count+1
         output1=np.zeros(opt.batch_size)
@@ -70,6 +98,7 @@ def main(opt):
         	output = netD(out_concat) #Denoised image
         	output4 = nd.mean(output, (1, 3, 2)).asnumpy()
         lbllist = lbllist+list(lbls.asnumpy())
+        print(output1,output2,output3,output4)
         scorelist1 = scorelist1+list(output1)
         scorelist2 = scorelist2+list(output2)
         scorelist3 = scorelist3+list(output3)
@@ -84,7 +113,7 @@ def main(opt):
         fake_img = nd.concat(fake_img1,fake_img2, fake_img3,fake_img4, dim=2)
         visual.visualize(fake_img)
         plt.savefig('outputs/T_'+opt.expname+'_'+str(count)+'.png')
-        
+
     print("Positives" + str(np.sum(lbllist)))
     print("Negatives" + str(np.shape(lbllist)-np.sum(lbllist) ))
     fpr, tpr, _ = roc_curve(lbllist, scorelist3, 1)

@@ -26,6 +26,7 @@ def train_options():
     parser.add_argument("--latent", default=16, type=int,  help="Dimension of the latent space.")
     parser.add_argument("--ntype", default=4, type=int, help="Novelty detector: 1 - AE 2 - ALOCC 3 - latentD 4 - OCGAN")
     parser.add_argument("--protocol", default=1, type=int, help="1 : 80/20 split, 2 : Train / Test split")
+    parser.add_argument("--gpu_num", default=0, type=int, help="1 : GPU device number.")
     args = parser.parse_args()
     if args.use_gpu == 1:
         args.use_gpu = True
@@ -68,7 +69,7 @@ def test_options():
     if args.usegan == 1:
         args.usegan = True
     else:
-        args.usegan = False    
+        args.usegan = False
     if args.istest == 1:
         args.istest = True
     else:

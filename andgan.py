@@ -31,7 +31,7 @@ def facc(label, pred):
     return ((pred > 0.5) == label).mean()
 
 
-def trainadnov(opt, train_data, val_data, ctx, networks):
+def trainadnov(opt, train_data, val_data, ctx, networks,datasize):
 
     netEn = networks[0]
     netDe = networks[1]
@@ -83,12 +83,14 @@ def trainadnov(opt, train_data, val_data, ctx, networks):
         btic = time.time()
         train_data.reset()
         iter = 0
+        counter = 0
         for batch in train_data:
             ############################
             # (1) Update D network: maximize log(D(x, y)) + log(1 - D(x, G(x, z)))
             ###########################
             real_in = batch.data[0].as_in_context(ctx)
             real_out = batch.data[1].as_in_context(ctx)
+            counter += opt.batch_size
             fake_latent = netEn(real_in)
             mu = nd.random.uniform( low=-1, high=1, shape=fake_latent.shape, ctx=ctx)
             real_latent = nd.random.uniform(low=-1, high=1, shape=fake_latent.shape, ctx=ctx)
@@ -218,6 +220,9 @@ def trainadnov(opt, train_data, val_data, ctx, networks):
                 _, acc2 = metricMSE.get()
                 text_file.write("%s %s %s %s\n" % (str(epoch), nd.mean(errR).asscalar(), str(acc2), str(accStrong)))
                 metricMSE.reset()
+            if counter > datasize:
+                break
+
     return [loss_rec_D, loss_rec_G, loss_rec_R, acc_rec, loss_rec_D2, loss_rec_G2, acc2_rec]
 
 
@@ -426,4 +431,3 @@ def traincvpr18(opt, train_data, val_data, ctx, networks):
             plt.savefig('outputs/'+expname+'_'+str(epoch)+'.png')
             text_file.close()
     return [loss_rec_D,loss_rec_G, loss_rec_R, acc_rec, loss_rec_D2]
-
