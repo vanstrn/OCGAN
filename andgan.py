@@ -85,6 +85,8 @@ def trainadnov(opt, train_data, val_data, ctx, networks,datasize):
         iter = 0
         counter = 0
         for batch in train_data:
+            for i in range(iter):
+                batch = train_data.next()#.data[0]
             ############################
             # (1) Update D network: maximize log(D(x, y)) + log(1 - D(x, G(x, z)))
             ###########################
