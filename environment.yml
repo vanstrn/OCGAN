@@ -25,12 +25,14 @@ dependencies:
     - idna==2.10
     - kiwisolver==1.1.0
     - matplotlib==2.2.5
-    - mxnet==0.12.1
-    - numpy==1.16.6
-    - python-graphviz==0.8.4
+    - mxnet-cu101==1.4.1
+    - numpy==1.14.6
+    - pyparsing==2.4.7
+    - python-dateutil==2.8.1
     - pytz==2020.4
     - requests==2.25.0
+    - six==1.15.0
     - subprocess32==3.5.4
     - urllib3==1.26.2
-prefix: /home/neale/anaconda3/envs/ocgan
+prefix: /home/capturetheflag/anaconda3/envs/ocgan
 
