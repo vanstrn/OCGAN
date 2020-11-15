@@ -59,6 +59,7 @@ def trainadnov(opt, train_data, val_data, ctx, networks,datasize):
     metricl = mx.metric.CustomMetric(facc)
     metricStrong = mx.metric.CustomMetric(facc)
     metric2 = mx.metric.MSE()
+    metricMSE = mx.metric.MSE()
     loss_rec_G2 =[]
     acc2_rec = []
     loss_rec_G = []
@@ -199,15 +200,15 @@ def trainadnov(opt, train_data, val_data, ctx, networks,datasize):
             logging.info('time: %f' % (time.time() - tic))
             if epoch % 5 == 0:
                 filename = "checkpoints/" + expname + "_" + str(epoch) + "_D.params"
-                netD.save_params(filename)
+                netD.save_parameters(filename)
                 filename = "checkpoints/" + expname + "_" + str(epoch) + "_D2.params"
-                netD2.save_params(filename)
+                netD2.save_parameters(filename)
                 filename = "checkpoints/" + expname + "_" + str(epoch) + "_En.params"
-                netEn.save_params(filename)
+                netEn.save_parameters(filename)
                 filename = "checkpoints/" + expname + "_" + str(epoch) + "_De.params"
-                netDe.save_params(filename)
+                netDe.save_parameters(filename)
                 filename = "checkpoints/" + expname + "_" + str(epoch) + "_SD.params"
-                netDS.save_params(filename)
+                netDS.save_parameters(filename)
                 val_data.reset()
                 text_file = open(expname + "_validtest.txt", "a")
                 for vbatch in val_data:
