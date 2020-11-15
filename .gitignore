@@ -1,2 +1,4 @@
 *.pyc
 mnist_png/
+outputs/
+
