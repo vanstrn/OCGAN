@@ -1,6 +1,7 @@
 from __future__ import print_function
 import os
 import matplotlib as mpl
+mpl.use('Agg')
 import tarfile
 import matplotlib.image as mpimg
 from matplotlib import pyplot as plt
@@ -89,13 +90,13 @@ def mainEvaluation(opt):
     netDe = networks[1]
     netD = networks[2]
     netD2 = networks[3]
-    # load_epoch = opt.epochs - 1
-    # netEn.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_En.params', ctx=ctx)
-    # netDe.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_De.params', ctx=ctx)
-    # if opt.ntype>1:
-    # 	netD.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D.params', ctx=ctx)
-    # if opt.ntype>2:
-	# netD2.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D2.params', ctx=ctx)
+    load_epoch = opt.epochs - 1
+    netEn.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_En.params', ctx=ctx)
+    netDe.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_De.params', ctx=ctx)
+    if opt.ntype>1:
+    	netD.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D.params', ctx=ctx)
+    if opt.ntype>2:
+	netD2.load_params('checkpoints/'+opt.expname+'_'+str(load_epoch)+'_D2.params', ctx=ctx)
 
     print('Model loading done')
     lbllist = [];
