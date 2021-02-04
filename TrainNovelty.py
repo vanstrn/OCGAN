@@ -67,7 +67,7 @@ def mainEvaluation(opt):
     testclasspaths = []
     testclasslabels = []
     print('loading test files')
-    filename = '_testlist.txt'
+    filename = '_folderlist.txt'
     with open(opt.dataset+"_"+opt.expname+filename , 'r') as f:
         for line in f:
             testclasspaths.append(line.split(' ')[0])
