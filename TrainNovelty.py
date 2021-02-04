@@ -47,6 +47,7 @@ def main(opt):
     print(opt)
     #Modifying the loading to
     inclasspaths , inclasses = dload.loadPaths(opt)
+    exit()
     train_data, val_data,datasize = load_image.load_image(inclasspaths, opt)
     print('Data loading done.')
     networks = models.set_network(opt, ctx, False)
@@ -68,7 +69,7 @@ def mainEvaluation(opt):
     testclasspaths = []
     testclasslabels = []
     print('loading test files')
-    filename = '_folderlist.txt'
+    filename = '_testlist.txt'
     with open(opt.dataset+"_"+opt.expname+filename , 'r') as f:
         for line in f:
             testclasspaths.append(line.split(' ')[0])

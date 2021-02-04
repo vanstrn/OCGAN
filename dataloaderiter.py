@@ -58,10 +58,11 @@ def loadPaths(opt):
         cluttersize = int(round(len(testclasslabels)/len(folders)))
         # cluttersize=
         for i in range(len(folders) ):
-            dirs = os.listdir(datapath + dataset + '/' + folders[i])
+            dirs = os.listdir(datapath + dataset + '/' + classes)
             for nfile in dirs[0: cluttersize]:
-                testclasspaths.append(datapath + dataset + '/' +folders[i] + '/' + nfile)
+                testclasspaths.append(datapath + dataset + '/' +classes + '/' + nfile)
                 testclasslabels.append(-1)
+            break
         # write test files and labels to external file for future testing
         text_file = open(dataset + "_" + expname + "_testlist.txt", "w")
         for fn, lbl in zip(testclasspaths, testclasslabels):
@@ -95,10 +96,11 @@ def loadPaths(opt):
         folders = [i.split('\n', 1)[0] for i in folders]
         cluttersize = int(round(len(testclasslabels)/len(folders)))
         for i in range(len(folders) ):
-            dirs = os.listdir(datapath + dataset + '/testing/' + folders[i])
+            dirs = os.listdir(datapath + dataset + '/testing/' + classes)
             for nfile in dirs:
-                    testclasspaths.append(datapath + dataset + '/testing/' +folders[i] + '/' + nfile)
+                    testclasspaths.append(datapath + dataset + '/testing/' +classes + '/' + nfile)
                     testclasslabels.append(-1)
+            break
         # write test files and labels to external file for future testing
         text_file = open(dataset + "_" + expname + "_testlist.txt", "w")
         for fn, lbl in zip(testclasspaths, testclasslabels):
