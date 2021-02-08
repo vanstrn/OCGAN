@@ -2,4 +2,9 @@
 mnist_png/
 outputs/
 checkpoints/
-
+wheel/
+*novellist.txt
+*trainlist.txt
+*testlist.txt
+*trainloss.txt
+*validtest.txt
