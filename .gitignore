@@ -6,3 +6,5 @@ wheel/
 *novellist.txt
 *trainlist.txt
 *testlist.txt
+*trainloss.txt
+*validloss.txt
