@@ -7,4 +7,4 @@ wheel/
 *trainlist.txt
 *testlist.txt
 *trainloss.txt
-*validloss.txt
+*validtest.txt
