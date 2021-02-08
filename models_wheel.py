@@ -5,8 +5,8 @@ from mxnet import ndarray as nd
 from mxnet.gluon import nn, utils
 from mxnet.gluon.nn import Dense, Activation, Conv2D, Conv2DTranspose, \
     BatchNorm, LeakyReLU, Flatten, HybridSequential, HybridBlock, Dropout
-from mxnet.symbol import UpSampling
-from mxnet.ndarray import Reshape
+# from mxnet.symbol import UpSampling
+from mxnet.ndarray import Reshape,UpSampling
 
 def set_network(opt, ctx, istest):
     depth = opt.depth
