@@ -139,12 +139,11 @@ class UnetGenerator(HybridBlock):
 class Discriminator(HybridBlock):
     def __init__(self, in_channels, ndf=64, n_layers=3, use_sigmoid=False, use_bias=False, istest = False, isthreeway = False):
         super(Discriminator, self).__init__()
-
         with self.name_scope():
             self.model = HybridSequential()
             kernel_size = 5
             padding = 0 #int(np.ceil((kernel_size - 1) / 2))
-            self.model.add(Conv2D(channels=ndf, kernel_size=5, strides=2,
+            self.model.add(Conv2D(channels=32, kernel_size=5, strides=2,
                                   padding=2, in_channels=in_channels))
             self.model.add(LeakyReLU(alpha=0.2))
             self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
@@ -173,6 +172,7 @@ class Discriminator(HybridBlock):
 
 
     def hybrid_forward(self, F, x):
+	print(x.shape)
         out = self.model(x)
         #print(np.shape(out))
         return out
@@ -268,7 +268,7 @@ class Decoder(HybridBlock):
                                            use_bias=True))
 
             self.model5.add(Activation(activation='relu'))
-            self.model6.add(Conv2D(channels=1, kernel_size=5, strides=1,
+            self.model6.add(Conv2D(channels=3, kernel_size=5, strides=1,
                                            padding=2, in_channels=32,
                                            use_bias=True))
 
@@ -277,16 +277,17 @@ class Decoder(HybridBlock):
     def hybrid_forward(self, F, x):
         out = self.model_(x)
         out = Reshape(out,shape=(512,1024,4,4))
+	out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model1(out)
-        UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model2(out)
-        UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model3(out)
-        UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model4(out)
-        UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model5(out)
-        UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model6(out)
         # print(out)
         return out
