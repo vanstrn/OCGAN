@@ -80,7 +80,7 @@ def mainEvaluation(opt):
     random.shuffle(c)
     testclasslabels, testclasspaths = zip(*c)
     print('loading pictures')
-    test_data = load_image.load_test_images(testclasspaths,testclasslabels,opt.batch_size, opt.img_wd, opt.img_ht, ctx, opt.noisevar)
+    test_data = load_image.load_test_images(testclasspaths,testclasslabels,opt.batch_size, opt.img_wd, opt.img_ht, ctx, opt.noisevar,opt.bw)
     print('picture loading done')
     opt.istest = True
     networks = models.set_network(opt, ctx, True)

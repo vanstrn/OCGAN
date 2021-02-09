@@ -21,6 +21,10 @@ def set_network(opt, ctx, istest):
     latent = opt.latent
     print(latent)
     append = opt.append
+    if opt.bw=1:
+        in_channels=3
+    else:
+        in_channels=1
     netD = None
     netD2 = None
     netDS = None
@@ -44,20 +48,20 @@ def set_network(opt, ctx, istest):
 
     else:
         if opt.ntype > 1:
-            netD = Discriminator(in_channels=3, n_layers=2, ndf=ndf, istest=istest)
+            netD = Discriminator(in_channels=in_channels, n_layers=2, ndf=ndf, istest=istest)
             network_init(netD, ctx=ctx)
             trainerD = gluon.Trainer(netD.collect_params(), 'adam', {'learning_rate': lr, 'beta1': beta1})
         if opt.ntype > 2:
-            netD2 = LatentDiscriminator(in_channels=3, n_layers=2, ndf=ndf, istest=istest)
+            netD2 = LatentDiscriminator(in_channels=in_channels, n_layers=2, ndf=ndf, istest=istest)
             network_init(netD2, ctx=ctx)
             trainerD2 = gluon.Trainer(netD2.collect_params(), 'adam', {'learning_rate': lr, 'beta1': beta1})
         if opt.ntype > 3:
-            netDS = Discriminator(in_channels=3, n_layers=2, ndf=ngf)
+            netDS = Discriminator(in_channels=in_channels, n_layers=2, ndf=ngf)
             network_init(netDS, ctx=ctx)
             trainerDS = gluon.Trainer(netDS.collect_params(), 'adam', {'learning_rate': lr, 'beta1': beta1})
 
-    netEn = Encoder(in_channels=3, n_layers=depth, latent=latent, ndf=ngf, istest=istest)
-    netDe = Decoder(in_channels=3, n_layers=depth, latent=latent, ndf=ngf, istest=istest)
+    netEn = Encoder(in_channels=in_channels, n_layers=depth, latent=latent, ndf=ngf, istest=istest)
+    netDe = Decoder(in_channels=in_channels, n_layers=depth, latent=latent, ndf=ngf, istest=istest)
     network_init(netEn, ctx=ctx)
     trainerEn = gluon.Trainer(netEn.collect_params(), 'adam', {'learning_rate': lr, 'beta1': beta1})
     network_init(netDe, ctx=ctx)
@@ -267,7 +271,7 @@ class Decoder(HybridBlock):
                                            use_bias=True))
 
             self.model5.add(Activation(activation='relu'))
-            self.model6.add(Conv2D(channels=3, kernel_size=5, strides=1,
+            self.model6.add(Conv2D(channels=in_channels, kernel_size=5, strides=1,
                                            padding=2, in_channels=32,
                                            use_bias=True))
 

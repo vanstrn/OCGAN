@@ -16,6 +16,7 @@ def train_options():
     parser.add_argument("--datapath", default='/users/pramudi/Documents/data/', help="Data path")
     parser.add_argument("--img_wd", default=61, type=int, help="Image width")
     parser.add_argument("--img_ht", default=61, type=int, help="Image height")
+    parser.add_argument("--bw", default=1, type=int, help="BW Flag (0-Grayscale,1-RGB)")
     parser.add_argument("--continueEpochFrom", default=-1,
                         help="Continue training from specified epoch")
     parser.add_argument("--noisevar", default=0.02, type=float, help="variance of noise added to input")
@@ -53,6 +54,7 @@ def test_options():
     parser.add_argument("--datapath", default='/users/pramudi/Documents/data/', help="Data path")
     parser.add_argument("--img_wd", default=61, type=int, help="Image width")
     parser.add_argument("--img_ht", default=61, type=int, help="Image height")
+    parser.add_argument("--bw", default=1, type=int, help="BW Flag (0-Grayscale,1-RGB)")
     parser.add_argument("--latent", default=4096, type=int,  help="Dimension of the latent space.")
     parser.add_argument("--depth", default=3, type=int, help="Number of core layers in Generator/Discriminator")
     parser.add_argument("--noisevar", default=0.02, type=float, help="variance of noise added to input")

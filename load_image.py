@@ -14,7 +14,7 @@ def load_image(fnames, opt):
     img_out_list = []
     shuffle(fnames)
     for img in fnames:
-        img_arr = mx.image.imread(img).astype(np.float32)/127.5 - 1
+        img_arr = mx.image.imread(img,flag=opt.bw).astype(np.float32)/127.5 - 1
         img_arr = mx.image.imresize(img_arr, img_wd, img_ht)
         # Crop input and output images
         croppedimg = mx.image.fixed_crop(img_arr, 0, 0, img_wd, img_ht)
@@ -42,12 +42,12 @@ def load_image(fnames, opt):
 
 
 
-def load_test_images(fnames, lbl, batch_size, img_wd, img_ht, ctx, noisevar=0.2, is_reversed=False):
+def load_test_images(fnames, lbl, batch_size, img_wd, img_ht, ctx, noisevar=0.2, is_reversed=False,bw=1):
     img_in_list = []
     img_out_list = []
     #shuffle(fnames)
     for img in fnames:
-        img_arr = mx.image.imread(img).astype(np.float32)/127.5 - 1
+        img_arr = mx.image.imread(img,bw).astype(np.float32)/127.5 - 1
         img_arr = mx.image.imresize(img_arr, img_wd, img_ht)
         # Crop input and output images
         croppedimg = mx.image.fixed_crop(img_arr, 0, 0, img_wd, img_ht)
