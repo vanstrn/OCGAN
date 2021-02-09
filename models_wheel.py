@@ -277,7 +277,7 @@ class Decoder(HybridBlock):
         bs = x.shape[0]
         out = self.model_(x)
         out = Reshape(out,shape=(bs,1024,4,4))
-	    out = UpSampling(out,scale=2,sample_type='nearest')
+        out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model1(out)
         out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model2(out)
