@@ -149,25 +149,25 @@ class Discriminator(HybridBlock):
             self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
                                   padding=2, in_channels=32))
             self.model.add(LeakyReLU(alpha=0.2))
+            self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
+                                  padding=2, in_channels=64))
+            self.model.add(LeakyReLU(alpha=0.2))
+            self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
+                                  padding=2, in_channels=64))
+            self.model.add(LeakyReLU(alpha=0.2))
             self.model.add(Conv2D(channels=128, kernel_size=5, strides=2,
                                   padding=2, in_channels=64))
             self.model.add(LeakyReLU(alpha=0.2))
-            self.model.add(Conv2D(channels=256, kernel_size=5, strides=2,
+            self.model.add(Conv2D(channels=128, kernel_size=5, strides=2,
                                   padding=2, in_channels=128))
-            self.model.add(LeakyReLU(alpha=0.2))
-            self.model.add(Conv2D(channels=512, kernel_size=5, strides=2,
-                                  padding=2, in_channels=256))
-            self.model.add(LeakyReLU(alpha=0.2))
-            self.model.add(Conv2D(channels=1024, kernel_size=5, strides=2,
-                                  padding=2, in_channels=512))
             self.model.add(LeakyReLU(alpha=0.2))
 
             self.model.add(gluon.nn.Dense(1))
 
             if isthreeway:
                 self.model.add(gluon.nn.Dense(3))
-            elif use_sigmoid:
-                self.model.add(Activation(activation='sigmoid'))
+            # elif use_sigmoid:
+            self.model.add(Activation(activation='sigmoid'))
 
 
 
@@ -243,23 +243,23 @@ class Decoder(HybridBlock):
             self.model5 = HybridSequential()
             self.model6 = HybridSequential()
             self.model_.add(gluon.nn.Dense(1024*4*4))
-            self.model1.add(Conv2D(channels=512, kernel_size=5, strides=1,
+            self.model1.add(Conv2D(channels=128, kernel_size=5, strides=1,
                                            padding=2, in_channels=1024,
                                            use_bias=True))
             self.model1.add(Activation(activation='relu'))
 
-            self.model2.add(Conv2D(channels=256, kernel_size=5, strides=1,
-                                           padding=2, in_channels=512,
+            self.model2.add(Conv2D(channels=64, kernel_size=5, strides=1,
+                                           padding=2, in_channels=128,
                                            use_bias=True))
 
             self.model2.add(Activation(activation='relu'))
-            self.model3.add(Conv2D(channels=128, kernel_size=5, strides=1,
-                                           padding=2, in_channels=256,
+            self.model3.add(Conv2D(channels=64, kernel_size=5, strides=1,
+                                           padding=2, in_channels=64,
                                            use_bias=True))
 
             self.model3.add(Activation(activation='relu'))
             self.model4.add(Conv2D(channels=64, kernel_size=5, strides=1,
-                                           padding=2, in_channels=128,
+                                           padding=2, in_channels=64,
                                            use_bias=True))
 
             self.model4.add(Activation(activation='relu'))
