@@ -208,17 +208,17 @@ class Encoder(HybridBlock):
         self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
                               padding=2, in_channels=32))
         self.model.add(LeakyReLU(alpha=0.2))
+        self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
+                              padding=2, in_channels=64))
+        self.model.add(LeakyReLU(alpha=0.2))
+        self.model.add(Conv2D(channels=64, kernel_size=5, strides=2,
+                              padding=2, in_channels=64))
+        self.model.add(LeakyReLU(alpha=0.2))
         self.model.add(Conv2D(channels=128, kernel_size=5, strides=2,
                               padding=2, in_channels=64))
         self.model.add(LeakyReLU(alpha=0.2))
-        self.model.add(Conv2D(channels=256, kernel_size=5, strides=2,
+        self.model.add(Conv2D(channels=128, kernel_size=5, strides=2,
                               padding=2, in_channels=128))
-        self.model.add(LeakyReLU(alpha=0.2))
-        self.model.add(Conv2D(channels=512, kernel_size=5, strides=2,
-                              padding=2, in_channels=256))
-        self.model.add(LeakyReLU(alpha=0.2))
-        self.model.add(Conv2D(channels=1024, kernel_size=5, strides=2,
-                              padding=2, in_channels=512))
         self.model.add(LeakyReLU(alpha=0.2))
 
         self.model.add(gluon.nn.Dense(latent))
