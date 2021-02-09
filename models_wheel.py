@@ -172,7 +172,6 @@ class Discriminator(HybridBlock):
 
 
     def hybrid_forward(self, F, x):
-	print(x.shape)
         out = self.model(x)
         #print(np.shape(out))
         return out
@@ -275,9 +274,10 @@ class Decoder(HybridBlock):
             self.model6.add(Activation(activation='tanh'))
 
     def hybrid_forward(self, F, x):
+        bs = x.shape[0]
         out = self.model_(x)
-        out = Reshape(out,shape=(512,1024,4,4))
-	out = UpSampling(out,scale=2,sample_type='nearest')
+        out = Reshape(out,shape=(bs,1024,4,4))
+	    out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model1(out)
         out = UpSampling(out,scale=2,sample_type='nearest')
         out = self.model2(out)
